@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width , initial-scale=1,maximum-scale=1.0, user-scalable=0">
+    <meta charset="UTF-8">
+    <title>远程控制</title>
+    <style>
+        .main section {
+            text-align: center;
+            padding: 10px 0;
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #888;
+        }
+    </style>
+</head>
+<body>
+<div class="main" id="iMain">
+    <section data-id="close">关闭客户端</section>
+    <section data-id="sleep">休眠</section>
+    <section data-id="toggleSlient">静音/取消静音</section>
+</div>
+
+<script src="js/axios.js"></script>
+<script>
+
+    function Factory() {
+        let map = {};
+        this.register = function (type, fn) {
+            map[type] = fn;
+        }
+        this.apply = function (type) {
+            let fn = map[type];
+            if (!fn) {
+                alert("类型异常")
+                return;
+            }
+            fn();
+        }
+    }
+
+    let factory = new Factory();
+    factory.register("close", function () {
+        if (confirm("是否关闭所有客户端？")) {
+            doGet("/cmd/close-clients");
+        }
+
+    });
+    factory.register("toggleSlient", function () {
+        doGet("/cmd/toggle-slient");
+    });
+    factory.register("sleep", function () {
+        if (confirm("是否休眠所有客户端？")) {
+            doGet("/cmd/sleep");
+        }
+    });
+
+    iMain.onclick = function (e) {
+        let type = e.srcElement.dataset.id;
+        factory.apply(type);
+    }
+    const host = "http://win-utils.nzjie.cn/api";
+
+    function doGet(url) {
+        url = host + url;
+        axios.get(url, {
+            params: {},
+            headers: {}
+        }).then(function (response) {
+            alert("操作成功")
+        }).catch(function (error) {
+            alert("操作失败：" + error)
+        });
+    }
+</script>
+</body>
+</html>
