@@ -10,12 +10,12 @@ import java.util.Map;
 
 public class CmdUtil {
 
-    public static final String SHUTDOWN_CMD = "Shutdown /h";
+    public static final String SLEEP_CMD = "Shutdown /h";
 
     public static final Map<String, String> CMDS = new HashMap<>();
 
     static {
-        CMDS.put(MonitorService.SHUTDOWN, SHUTDOWN_CMD);
+        CMDS.put(MonitorService.SLEEP, SLEEP_CMD);
     }
 
     /**

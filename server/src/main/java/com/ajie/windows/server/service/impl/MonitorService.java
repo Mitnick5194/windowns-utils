@@ -131,17 +131,6 @@ public class MonitorService {
         return closeTabMonitor.compareAndSet(false, true);
     }
 
-    /**
-     * 解析结果给到消费端
-     *
-     * @return 按照优先级返回 关机>重启>睡眠>定时关机>
-     */
-    public String parseDriveItType() {
-        if (shutdownMonitor.get()) {
-            return ControlService.SLEEP;
-        }
-        return "";
-    }
 
     /**
      * 获取结果
@@ -216,14 +205,6 @@ public class MonitorService {
         this.sleepMonitor = sleepMonitor;
     }
 
-    public AtomicBoolean getshutdownMonitor() {
-        return shutdownMonitor;
-    }
-
-    public void setshutdownMonitor(AtomicBoolean shutdownMonitor) {
-        this.shutdownMonitor = shutdownMonitor;
-    }
-
     public AtomicBoolean getRebootMonitor() {
         return rebootMonitor;
     }
@@ -286,5 +267,13 @@ public class MonitorService {
 
     public void setCloseTabMonitor(AtomicBoolean closeTabMonitor) {
         this.closeTabMonitor = closeTabMonitor;
+    }
+
+    public AtomicBoolean getShutdownMonitor() {
+        return shutdownMonitor;
+    }
+
+    public void setShutdownMonitor(AtomicBoolean shutdownMonitor) {
+        this.shutdownMonitor = shutdownMonitor;
     }
 }

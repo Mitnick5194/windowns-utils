@@ -12,19 +12,78 @@
             margin: 20px auto;
             border: 1px solid #888;
         }
+
+        .delay-sleep-wrap {
+            text-align: center;
+            padding: 10px 0;
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #888;
+        }
+
+        .delay-sleep {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .delay-sleep input {
+            width: 30px;
+            border: 1px solid #888;
+            margin-right: 5px;
+        }
+
+        .submit-delay-sleep {
+            background: #337ab7;
+            margin-left: 15px;
+            padding: 0 5px;
+            border-radius: 3px;
+            color: #fff;
+        }
+
+        .voice-ctrl {
+            display: flex;
+            padding: 10px 0;
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #888;
+            text-align: center;
+        }
+
+        .voice-ctrl div {
+            flex: 1;
+        }
+
+        .voice-ctrl div:first-child {
+            border-right: 1px solid #888;
+        }
     </style>
 </head>
 <body>
 <div class="main" id="iMain">
-    <section data-id="close">关闭客户端</section>
+    <section data-id="closeClient">断开客户端连接</section>
+    <section data-id="shutdown">关机</section>
+    <section data-id="reboot">重启</section>
     <section data-id="sleep">休眠</section>
-    <section data-id="toggleSlient">静音/取消静音</section>
+    <div class="delay-sleep-wrap">
+        <div class="delay-sleep">
+            <div><input/> 小时<input/> 分后休眠</div>
+            <div class="submit-delay-sleep" data-id="delaySleep">执行</div>
+        </div>
+    </div>
+    <section data-id="silentToggle">静音/取消静音</section>
+    <div class="voice-ctrl">
+        <div data-id="decr">音量-</div>
+        <div data-id="incr">音量+</div>
+    </div>
+    <section data-id="tab">切换活动窗口</section>
+    <section data-id="closeTab">关闭当前活动窗口</section>
 </div>
 
 <script src="js/axios.js"></script>
 <script>
 
-    function Factory() {
+    /*function Factory() {
         let map = {};
         this.register = function (type, fn) {
             map[type] = fn;
@@ -53,23 +112,35 @@
         if (confirm("是否休眠所有客户端？")) {
             doGet("/cmd/sleep");
         }
-    });
+    });*/
 
     iMain.onclick = function (e) {
         let type = e.srcElement.dataset.id;
-        factory.apply(type);
+        if (!type) {
+            return;
+        }
+        if(type == "sleep"){
+            if(!confirm("是否休眠？")){
+                return;
+            }
+        }
+        //alert(type);
+        doGet(type);
+        //factory.apply(type);
     }
-    const host = "http://win-utils.nzjie.cn/api";
+    //const host = "http://win-utils.nzjie.cn/api";
+    const host = "http://192.168.0.104:54321/cmd/driveIt?type=";
 
-    function doGet(url) {
-        url = host + url;
+    function doGet(type) {
+        url = host + type;
         axios.get(url, {
             params: {},
             headers: {}
         }).then(function (response) {
-            alert("操作成功")
+            //alert("操作成功")
+            console.log("操作成功");
         }).catch(function (error) {
-            alert("操作失败：" + error)
+            alert("操作失败：" + error);
         });
     }
 </script>

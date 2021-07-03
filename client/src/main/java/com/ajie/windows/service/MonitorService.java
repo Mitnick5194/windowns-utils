@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 睡眠监控器
- * <p>关机、重启、休眠属于高优先级，遇到该操作，后面的就不用往下执行了</p>
+ * <p>断开客户端连接，关机、重启、休眠属于高优先级，遇到该操作，后面的就不用往下执行了</p>
  */
 public class MonitorService {
 
@@ -114,6 +114,16 @@ public class MonitorService {
             if (null == cmd) {
                 cmd = CmdUtil.getCmd(type);
             }
+            if (null == cmd && CLOSE_CLIENT.equals(type)) {
+                //断开客户端
+                System.out.println("断开客户端");
+                System.exit(0);
+                return;
+            }
+            if (null == cmd) {
+                System.out.println("未知命令：" + cmd);
+                return;
+            }
             try {
                 CmdUtil.execWindowsCmd(cmd);
             } catch (IOException e) {
@@ -124,6 +134,10 @@ public class MonitorService {
 
     private List<String> parse() {
         List<String> result = new ArrayList<>();
+        if (closeClientMonitor.get()) {
+            add(result, CLOSE_CLIENT); //高优先级，后面的就不用执行了
+            return result;
+        }
         if (shutdownMonitor.get()) {
             result.add(SHUTDOWN);
             return result;//高优先级，后面的就不用执行了
@@ -150,9 +164,6 @@ public class MonitorService {
         }
         if (closeTabMonitor.get()) {
             add(result, CLOSE_TAB);
-        }
-        if (closeClientMonitor.get()) {
-            add(result, CLOSE_CLIENT);
         }
         if (delaySleepMonitor.get()) {
             add(result, DELAY_SLEEP);
@@ -226,5 +237,21 @@ public class MonitorService {
 
     public void setCloseTabMonitor(AtomicBoolean closeTabMonitor) {
         this.closeTabMonitor = closeTabMonitor;
+    }
+
+    public AtomicBoolean getSleepMonitor() {
+        return sleepMonitor;
+    }
+
+    public void setSleepMonitor(AtomicBoolean sleepMonitor) {
+        this.sleepMonitor = sleepMonitor;
+    }
+
+    public AtomicBoolean getShutdownMonitor() {
+        return shutdownMonitor;
+    }
+
+    public void setShutdownMonitor(AtomicBoolean shutdownMonitor) {
+        this.shutdownMonitor = shutdownMonitor;
     }
 }
