@@ -1,2 +1,9 @@
 server:
   port: 54321
+
+#配置日志
+logging:
+  #此处存放日志的路径
+  config: classpath:logback-spring.xml
+  lever:
+    root: INFO #root表示整个项目，也可单指定某个类（指定某个类放在logback文件指定也可以）

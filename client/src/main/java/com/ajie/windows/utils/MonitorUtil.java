@@ -1,19 +1,17 @@
-package com.ajie.windows;
-
-import com.ajie.windows.utils.CmdUtil;
-import com.ajie.windows.utils.PathUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+package com.ajie.windows.utils;
 
 /**
  * windows休眠工具
  */
 public class MonitorUtil {
-    private static final String PROPERTIES_FILE_PATH = "N:\\daily\\win-utils\\properties.properties";
+   /* private static String PROPERTIES_FILE_PATH = "N:\\daily\\win-utils\\properties.properties";
+
+    static {
+        String properties = System.getProperty("properties");
+        if (null != properties) {
+            PROPERTIES_FILE_PATH = properties;
+        }
+    }
 
     public static void sleep() {
         String cmd = "Shutdown /h";
@@ -24,9 +22,9 @@ public class MonitorUtil {
         }
     }
 
-    /**
+    *//**
      * 静音与取消静音切换
-     */
+     *//*
     public static void toggleSlient() {
         String cmd = getSlientBat();
         try {
@@ -36,11 +34,11 @@ public class MonitorUtil {
         }
     }
 
-    /**
+    *//**
      * 获取静音文件
      *
      * @return
-     */
+     *//*
     private static String getSlientBat() {
         String classPath = PathUtil.getClassPath();
         //去除前面的"/"
@@ -49,20 +47,6 @@ public class MonitorUtil {
         // return "M:\\_idea_ws\\windows-utils\\client\\target\\classes\\slient.bat";
         return Monitor.prop.getSlientBatPath();
     }
+*/
 
-    /**
-     * 加载配置
-     *
-     * @return
-     */
-    public static Properties loadProperties() {
-        Properties properties = new Properties();
-        try {
-            InputStream is = new FileInputStream(new File(PROPERTIES_FILE_PATH));
-            properties.load(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
 }

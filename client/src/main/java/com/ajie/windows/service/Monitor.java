@@ -1,7 +1,8 @@
-package com.ajie.windows;
+package com.ajie.windows.service;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
+import com.ajie.windows.utils.PathUtil;
 
 import java.util.Properties;
 import java.util.Timer;
@@ -33,26 +34,8 @@ public class Monitor {
                     return;
                 }
                 JSONObject json = new JSONObject(result);
-                //休眠操作
-                boolean sleep = json.getBool("sleep");
-                //静音操作
-                boolean slient = json.getBool("slient");
-                //关闭客户端
-                boolean close = json.getBool("close");
-                if (close) {
-                    System.exit(0);
-                    return;
-                }
-                if (sleep) {
-                    MonitorUtil.sleep();
-                    return;//如果是休眠的話，沒必要往下执行了
-                }
-                //只有当slientFlag与slient对立时，才进行静音/取消静音操作
-                boolean flag = slientFlag.compareAndSet(!slient, slient);
-                if (!flag) {
-                    return;
-                }
-                MonitorUtil.toggleSlient();
+                MonitorService monitorService = json.toBean(MonitorService.class);
+                monitorService.driveIt();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -60,27 +43,27 @@ public class Monitor {
         }
     }
 
-    static class Prop {
+    public static class Prop {
         private Properties properties;
 
         private String url;
         //执行间隔，单位毫秒
         private long interval;
         //静音脚本路径
-        private String slientBatPath;
+        private String controlVbsPath;
 
         public Prop() {
-            properties = MonitorUtil.loadProperties();
+            properties = PathUtil.loadProperties();
             init();
         }
 
         public void init() {
             String url = properties.getProperty("url", "");
-            String slientBatPath = properties.getProperty("slient_bat_path", "");
+            String controlVbsPath = properties.getProperty("control_vbs_path", "");
             //配置文件里的单位是秒
             String interval = properties.getProperty("interval", "0");
             this.url = url;
-            this.slientBatPath = slientBatPath;
+            this.controlVbsPath = controlVbsPath;
             this.interval = Long.valueOf(interval) * 1000;
         }
 
@@ -88,8 +71,8 @@ public class Monitor {
             return url;
         }
 
-        public String getSlientBatPath() {
-            return slientBatPath;
+        public String getControlVbsPath() {
+            return controlVbsPath;
         }
 
         public long getInterval() {

@@ -1,10 +1,22 @@
 package com.ajie.windows.utils;
 
+import com.ajie.windows.service.MonitorService;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CmdUtil {
+
+    public static final String SHUTDOWN_CMD = "Shutdown /h";
+
+    public static final Map<String, String> CMDS = new HashMap<>();
+
+    static {
+        CMDS.put(MonitorService.SHUTDOWN, SHUTDOWN_CMD);
+    }
 
     /**
      * 执行windowns命令
@@ -25,5 +37,9 @@ public class CmdUtil {
             sb.append(line);
         }
         return sb.toString();
+    }
+
+    public static String getCmd(String type) {
+        return CMDS.get(type);
     }
 }
