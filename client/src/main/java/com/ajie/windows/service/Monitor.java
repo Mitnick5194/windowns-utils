@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Monitor {
     //private static final long delay = 3 * 1000;
     //private static final String url = "http://localhost:54321/cmd/get";
-    private static final AtomicBoolean slientFlag = new AtomicBoolean(false);
+    //private static final AtomicBoolean slientFlag = new AtomicBoolean(false);
     public static final Prop prop;
 
     static {

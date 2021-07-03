@@ -43,7 +43,6 @@
 
         .voice-ctrl {
             display: flex;
-            padding: 10px 0;
             width: 80%;
             margin: 20px auto;
             border: 1px solid #888;
@@ -51,16 +50,24 @@
         }
 
         .voice-ctrl div {
+            padding: 10px 0;
             flex: 1;
         }
 
         .voice-ctrl div:first-child {
             border-right: 1px solid #888;
         }
+        .main section:active{
+            background: #337ab7;
+        }
+
+        .voice-ctrl div:active{
+            background: #337ab7;
+        }
     </style>
 </head>
 <body>
-<div class="main" id="iMain">
+<div class="main"  tabindex="1" id="iMain">
     <section data-id="closeClient">断开客户端连接</section>
     <section data-id="shutdown">关机</section>
     <section data-id="reboot">重启</section>
@@ -76,7 +83,7 @@
         <div data-id="decr">音量-</div>
         <div data-id="incr">音量+</div>
     </div>
-    <section data-id="tab">切换活动窗口</section>
+    <section data-id="tab" >切换活动窗口</section>
     <section data-id="closeTab">关闭当前活动窗口</section>
 </div>
 

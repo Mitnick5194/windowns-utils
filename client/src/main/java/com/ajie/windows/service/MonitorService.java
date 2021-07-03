@@ -110,6 +110,7 @@ public class MonitorService {
     public void driveIt() {
         List<String> parse = parse();
         for (String type : parse) {
+            //尝试根据类型获取vbs脚本
             String cmd = VbsUtil.getVbsCmd(type);
             if (null == cmd) {
                 cmd = CmdUtil.getCmd(type);
