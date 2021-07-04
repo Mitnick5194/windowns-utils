@@ -7,7 +7,6 @@ import com.ajie.windows.utils.PathUtil;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Monitor {
     //private static final long delay = 3 * 1000;

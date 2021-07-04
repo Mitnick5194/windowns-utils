@@ -8,6 +8,13 @@ import java.util.Properties;
 public class PathUtil {
     private static String PROPERTIES_FILE_PATH = "N:\\daily\\win-utils\\properties.properties";
 
+    static {
+        String properties = System.getProperty("properties");
+        if (null != properties && properties.trim().length() > 0) {
+            PROPERTIES_FILE_PATH = properties;
+        }
+    }
+
     public static String getClassPath() {
         return PathUtil.class.getResource("/").getPath();
     }
